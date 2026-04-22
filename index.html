@@ -19,13 +19,15 @@
         <main class="app-main">
             <div class="form-group">
                 <label for="guestName">Nama Tamu</label>
-                <input type="text" id="guestName" placeholder="Contoh: Budi Santoso" autocomplete="off">
+                <!-- Tambah autocomplete="name" untuk iOS keyboard suggestion -->
+                <input type="text" id="guestName" placeholder="Contoh: Budi Santoso" autocomplete="name">
             </div>
 
             <div class="form-group">
                 <label for="guestPhone">Nomor WhatsApp</label>
                 <div class="phone-input-wrapper">
-                    <input type="tel" id="guestPhone" placeholder="Contoh: 08123456789">
+                    <!-- Tambah autocomplete="tel" untuk memicu Contact Picker bawaan keyboard -->
+                    <input type="tel" id="guestPhone" placeholder="Contoh: 08123456789" autocomplete="tel">
                     <button id="btnPickContact" class="icon-btn" title="Pilih dari Kontak" style="display: none;">
                         <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                     </button>
