@@ -8,32 +8,39 @@ document.addEventListener('DOMContentLoaded', () => {
     btnPickContact.style.display = 'flex'; // Selalu tampilkan untuk UI
 
     btnPickContact.addEventListener('click', async () => {
-        const supported = ('contacts' in navigator && 'ContactsManager' in window);
-
-        if (!supported) {
-            alert('Maaf, fitur pilih kontak langsung hanya didukung di browser HP (seperti Google Chrome di Android). Silakan ketik nomor secara manual jika Anda membuka ini di Laptop/Desktop.');
+        // Pengecekan support API yang lebih universal
+        if (!('contacts' in navigator)) {
+            alert('Maaf, fitur pilih kontak Phonebook langsung dari website belum didukung oleh HP/Browser Anda (Saat ini paling optimal di Google Chrome Android). Silakan ketik ketik nama/nomor secara manual.');
             return;
         }
 
         try {
+            // Mengambil spesifik nama dan telepon
             const props = ['name', 'tel'];
             const opts = { multiple: false };
             const contacts = await navigator.contacts.select(props, opts);
-            if (contacts.length > 0) {
+            
+            if (contacts && contacts.length > 0) {
                 const contact = contacts[0];
+                
                 if (contact.name && contact.name.length > 0) {
                     guestNameInput.value = contact.name[0];
                 }
+                
                 if (contact.tel && contact.tel.length > 0) {
                     guestPhoneInput.value = contact.tel[0];
+                } else {
+                    alert('Data kontak yang dipilih tidak memiliki Nomor HP. Silakan isi secara manual.');
                 }
+                
                 updatePreview();
             }
         } catch (ex) {
             console.error("Contact picker failed:", ex);
-            alert("Gagal membuka kontak perangkat. Pastikan Anda memberikan izin akses kontak pada browser.");
+            alert("Gagal membaca buku kontak. Pastikan Anda klik 'Allow/Izinkan' saat browser meminta akses, dan pastikan membukanya di koneksi aman (HTTPS).");
         }
     });
+
 
     function formatPhoneNumber(phone) {
         // Remove all non-numeric characters
