@@ -15,8 +15,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            // Mengambil spesifik nama dan telepon
-            const props = ['name', 'tel'];
+            // Mengambil daftar properti yang di-support oleh HP untuk menghindari error
+            const availableProps = await navigator.contacts.getProperties();
+            const props = availableProps.filter(p => p === 'name' || p === 'tel');
+            
+            if (props.length === 0) {
+                alert('Device Anda tidak mengizinkan akses ke Nama atau Nomor HP.');
+                return;
+            }
+
             const opts = { multiple: false };
             const contacts = await navigator.contacts.select(props, opts);
             
